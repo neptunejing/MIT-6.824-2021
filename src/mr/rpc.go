@@ -9,21 +9,27 @@ package mr
 import "os"
 import "strconv"
 
-//
-// example to show how to declare the arguments
-// and reply for an RPC.
-//
-
-type ExampleArgs struct {
-	X int
+// worker 向 coordinator 请求任务
+type Req struct {
+	WorkerID int // 发出请求的 worker ID
 }
 
-type ExampleReply struct {
-	Y int
+// coordinator 向 workers 分发任务
+type Task struct {
+	Type     string // 任务类型
+	FileName string // 文件名
+	ID       int    // 任务 ID
+	NReduce  int    // Reducer 数量
+}
+
+// worker 向 coordiantor 确认执行完毕
+type Check struct {
+	TaskID   int    // 任务 ID
+	Type     string // 任务类型
+	WorkerID int
 }
 
 // Add your RPC definitions here.
-
 
 // Cook up a unique-ish UNIX-domain socket name
 // in /var/tmp, for the coordinator.
