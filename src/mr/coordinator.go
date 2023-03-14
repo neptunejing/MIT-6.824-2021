@@ -132,6 +132,8 @@ func (c *Coordinator) server() {
 // main/mrcoordinator.go calls Done() periodically to find out
 // if the entire job has finished.
 func (c *Coordinator) Done() bool {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	if c.Status == Done {
 		log.Println("Coordinator exits")
 		return true
